@@ -1,5 +1,7 @@
 import { useState, useEffect } from "react";
 import useShop from "./ShopContext";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const ProductCard = ({ title, thumbnail, price, rating }) => {
   const { products, addToCart, removeFromCart } = useShop();
@@ -18,14 +20,38 @@ const ProductCard = ({ title, thumbnail, price, rating }) => {
     const product = { title, thumbnail, price, rating };
     if (isInCart) {
       removeFromCart(product);
+      toast.success("🦄 Wow so easy!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: false,
+        draggable: false,
+        progress: undefined,
+        theme: "light",
+      });
     } else {
       addToCart(product);
+      toast("🦄 Wow so easy!", {
+        position: "top-center",
+        autoClose: 1000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+        progress: undefined,
+      });
     }
   };
 
   return (
-    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
-      <img className="p-8 rounded-t-lg" src={thumbnail} alt="product image" />
+    <div className="w-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 mx-auto">
+      <img
+        style={{ width: "300px", height: "300px", objectFit: "cover" }}
+        className="p-8 rounded-t-lg rounded"
+        src={thumbnail}
+        alt="product image"
+      />
       <div className="px-5 pb-5">
         <h5 className="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
           {title}
@@ -80,7 +106,7 @@ const ProductCard = ({ title, thumbnail, price, rating }) => {
             {rating}
           </span>
         </div>
-        <div className="flex items-center justify-between">
+        <div className="mx-auto flex items-center justify-between">
           <span className="text-3xl font-bold text-gray-900 dark:text-white">
             {price}.00$
           </span>
@@ -91,6 +117,11 @@ const ProductCard = ({ title, thumbnail, price, rating }) => {
           >
             {isInCart ? "Remove" : "Add to cart"}
           </button>
+          <ToastContainer
+            position="top-center"
+            autoClose={1000}
+            theme="light"
+          />
         </div>
       </div>
     </div>
